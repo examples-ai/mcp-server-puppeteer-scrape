@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@examples-ai/puppeteer-browser-serverless':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.5.0
+        version: 1.5.0(@sparticuz/chromium-min@133.0.0)(puppeteer-core@21.11.0)
       '@modelcontextprotocol/sdk':
         specifier: ^1.17.4
         version: 1.17.4
@@ -42,6 +42,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.0
         version: 2.2.0
+      '@sparticuz/chromium-min':
+        specifier: ^133.0.0
+        version: 133.0.0
       '@types/node':
         specifier: ^20
         version: 20.19.11
@@ -54,6 +57,9 @@ importers:
       '@types/turndown':
         specifier: ^5.0.5
         version: 5.0.5
+      puppeteer-core:
+        specifier: ^21.5.1
+        version: 21.11.0
       typescript:
         specifier: ^5
         version: 5.9.2
@@ -116,9 +122,12 @@ packages:
   '@emnapi/runtime@1.4.5':
     resolution: {integrity: sha512-++LApOtY0pEEz1zrd9vy1/zXVaVJJ/EbAF3u0fXIzPJEDtnITsBGbbK0EkM72amhl/R5b+5xx0Y/QhcVOpuulg==}
 
-  '@examples-ai/puppeteer-browser-serverless@1.1.0':
-    resolution: {integrity: sha512-mRT/71Xt5m5VdKYhnLfk/2upfYl9xiTtavKH4/doOjlS2+vuo3RAyf5xF2SPmtkb/fs73UAwPaBKwyID6aL2Qw==}
+  '@examples-ai/puppeteer-browser-serverless@1.5.0':
+    resolution: {integrity: sha512-x/vCAp4QYjfoSyzLe0U/MEZoUThI71Uc9X0t8Sod1RTo98VqHxMkCw7/shImBNc3q7CvJFxs2fIBv54RkTwd2w==}
     engines: {node: '>=22.18.0'}
+    peerDependencies:
+      '@sparticuz/chromium-min': ^133.0.0
+      puppeteer-core: ^21.5.1
 
   '@img/sharp-darwin-arm64@0.34.3':
     resolution: {integrity: sha512-ryFMfvxxpQRsgZJqBd4wsttYQbCxsJksrv9Lw/v798JcQ8+w84mBWuXwl+TT0WJ/WrYOLaYpwQXi3sA9nTIaIg==}
@@ -1293,17 +1302,10 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@examples-ai/puppeteer-browser-serverless@1.1.0':
+  '@examples-ai/puppeteer-browser-serverless@1.5.0(@sparticuz/chromium-min@133.0.0)(puppeteer-core@21.11.0)':
     dependencies:
       '@sparticuz/chromium-min': 133.0.0
       puppeteer-core: 21.11.0
-    transitivePeerDependencies:
-      - bare-buffer
-      - bufferutil
-      - debug
-      - encoding
-      - supports-color
-      - utf-8-validate
 
   '@img/sharp-darwin-arm64@0.34.3':
     optionalDependencies:

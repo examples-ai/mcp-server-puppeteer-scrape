@@ -1,135 +1,88 @@
 # mcp-server-puppeteer-scrape
 
-A Model Context Protocol (MCP) server implementation built with Next.js API Routes and the Vercel MCP Adapter.
+An MCP server that provides web scraping capabilities using Puppeteer to extract content from websites and convert it to Markdown format.
 
-## Features
+## Why Puppeteer?
 
-- **API-only Next.js Application**: Optimized for API routes without unnecessary frontend components
-- **MCP Server Implementation**: Uses `@vercel/mcp-adapter` for easy integration
-- **Example Tools**: Includes sample tools (echo, get_time, calculate) to demonstrate MCP capabilities
-- **Biome v2.2**: Modern, fast linting and formatting with Biome instead of ESLint/Prettier
-- **TypeScript**: Full TypeScript support for type safety
+Unlike simple HTTP-based scrapers, Puppeteer uses a real browser engine to:
 
-## Tech Stack
+- **Render JavaScript-heavy websites**: Captures content generated dynamically by JavaScript frameworks (React, Vue, Angular)
+- **Handle client-side rendering**: Waits for AJAX calls and lazy-loaded content
+- **Access interactive elements**: Extracts content that only appears after user interactions
+- **Bypass anti-scraping measures**: Appears as a real browser to websites
+- **Capture the final DOM**: Gets the fully rendered page as users would see it
 
-- Next.js 15.5.0 (latest)
-- TypeScript
-- @vercel/mcp-adapter
-- @modelcontextprotocol/sdk
-- Biome v2.2.0 for linting and formatting
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Installation
+## Installation
 
 ```bash
-npm install
+pnpm install
+pnpm dev
 ```
 
-### Development
+## Usage as MCP Server
 
-```bash
-npm run dev
+### Configure in Claude Desktop
+
+Add to your Claude Desktop configuration:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "puppeteer-scrape": {
+      "command": "pnpm",
+      "args": ["dev"],
+      "cwd": "/path/to/mcp-server-puppeteer-scrape"
+    }
+  }
+}
 ```
 
-The server will start on [http://localhost:3000](http://localhost:3000)
+Restart Claude Desktop after updating the configuration.
 
-### Available Scripts
+## Available MCP Tool
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run Biome linter
-- `npm run format` - Format code with Biome
-- `npm run check` - Run Biome check with auto-fix
+**scrape** - Scrape a webpage and convert it to Markdown powered by Puppeteer
+   - Parameters: 
+     - `url` (string) - URL of the webpage to scrape
+   - Returns: Markdown-formatted content extracted from the webpage
 
-## API Endpoints
-
-The server supports multiple transport methods through dynamic routing:
-
-### `/api/mcp` - Streamable HTTP Transport
-
-Standard HTTP endpoint for MCP requests.
-
-### `/api/sse` - Server-Sent Events Transport
-
-SSE endpoint for real-time streaming responses.
-
-### `/api/message` - SSE Message Endpoint
-
-Message endpoint for SSE transport.
-
-## Available MCP Tools
-
-1. **echo** - Echoes back the input message
-
-   - Parameters: `message` (string)
-
-2. **get_time** - Returns the current time in specified timezone
-
-   - Parameters: `timezone` (string, optional, default: "UTC")
-
-3. **calculate** - Performs basic arithmetic operations
-   - Parameters:
-     - `operation` (enum: "add", "subtract", "multiply", "divide")
-     - `a` (number)
-     - `b` (number)
-
-## Example Usage
+## Testing with curl
 
 ```bash
-# Call echo tool via HTTP transport
+# Test the scrape tool
 curl -X POST http://localhost:3000/api/mcp \
   -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
   -d '{
     "jsonrpc": "2.0",
     "method": "tools/call",
     "params": {
-      "name": "echo",
+      "name": "scrape",
       "arguments": {
-        "message": "Hello, MCP!"
+        "url": "https://example.com"
       }
     },
     "id": 1
   }'
 
-# Call calculate tool
+# Scrape a JavaScript-heavy site
 curl -X POST http://localhost:3000/api/mcp \
   -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
   -d '{
     "jsonrpc": "2.0",
     "method": "tools/call",
     "params": {
-      "name": "calculate",
+      "name": "scrape",
       "arguments": {
-        "operation": "add",
-        "a": 10,
-        "b": 20
+        "url": "https://news.ycombinator.com"
       }
     },
-    "id": 1
+    "id": 2
   }'
-```
-
-## Project Structure
-
-```
-mcp-nextjs-server/
-├── app/
-│   ├── api/
-│   │   └── [transport]/
-│   │       └── route.ts     # Dynamic MCP endpoint handler
-│   ├── layout.tsx           # Minimal root layout
-│   └── page.tsx             # Simple info page
-├── biome.json               # Biome configuration
-├── next.config.ts           # Next.js configuration
-├── package.json
-└── tsconfig.json
 ```
 
 ## License
