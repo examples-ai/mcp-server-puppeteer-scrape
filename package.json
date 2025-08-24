@@ -16,6 +16,7 @@
     "@paoramen/cheer-reader": "npm:@jsr/paoramen__cheer-reader@^0.1.2",
     "@vercel/mcp-adapter": "^1.0.0",
     "cheerio": "^1.1.2",
+    "dotenv": "^17.2.1",
     "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
@@ -24,11 +25,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.0",
+    "@sparticuz/chromium-min": "^133.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/turndown": "^5.0.5",
-    "@sparticuz/chromium-min": "^133.0.0",
     "puppeteer-core": "^21.5.1",
     "typescript": "^5"
   },
